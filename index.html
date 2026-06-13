@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOVA — Web Studio · Sites that win clients</title>
+  <meta name="description" content="A boutique web studio crafting fast, modern, conversion-focused websites. Selected work, services, and a process built to make brands unforgettable." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NOVA — Web Studio" />
+  <meta property="og:description" content="Modern, high-performance websites that turn visitors into customers." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts: Fontshare (Clash Display + Satoshi) -->
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Grain + cursor overlays -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+
+  <!-- Page loader -->
+  <div class="loader" aria-hidden="true">
+    <div class="loader__count"><span data-count>0</span></div>
+    <div class="loader__bar"><span></span></div>
+  </div>
+
+  <!-- Progress scroll bar -->
+  <div class="scrollbar" aria-hidden="true"><span></span></div>
+
+  <!-- Nav -->
+  <header class="nav" data-nav>
+    <a href="#top" class="nav__logo" data-magnetic>
+      <span class="nav__mark">◆</span> NOVA<span class="nav__dot">.</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#work" data-link>Work</a>
+      <a href="#services" data-link>Services</a>
+      <a href="#process" data-link>Process</a>
+      <a href="#about" data-link>About</a>
+    </nav>
+    <a href="#contact" class="nav__cta" data-magnetic>
+      <span>Start a project</span>
+      <svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 13L13 3M13 3H5M13 3V11" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+    </a>
+    <button class="nav__burger" data-burger aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="menu" data-menu>
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <canvas class="hero__canvas" data-gradient aria-hidden="true"></canvas>
+      <div class="hero__inner">
+        <p class="hero__eyebrow reveal-up"><span>◆</span> Web studio · Est. 2024 · Available for work</p>
+        <h1 class="hero__title">
+          <span class="line"><span class="word">We build</span></span>
+          <span class="line"><span class="word">websites that</span></span>
+          <span class="line"><span class="word italic">win clients.</span></span>
+        </h1>
+        <div class="hero__meta">
+          <p class="reveal-up">Design, motion &amp; engineering for ambitious brands. Fast, modern, and impossible to ignore.</p>
+          <a href="#work" class="hero__scroll" data-magnetic>
+            <span class="hero__scroll-circle">
+              <svg viewBox="0 0 12 12" width="12"><path d="M6 1v10M6 11L2 7M6 11l4-4" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
+            </span>
+            See the work
+          </a>
+        </div>
+      </div>
+      <div class="hero__marquee" aria-hidden="true">
+        <div class="marquee" data-marquee>
+          <span>Design&nbsp;✦&nbsp;Development&nbsp;✦&nbsp;Branding&nbsp;✦&nbsp;Motion&nbsp;✦&nbsp;SEO&nbsp;✦&nbsp;Strategy&nbsp;✦&nbsp;</span>
+          <span>Design&nbsp;✦&nbsp;Development&nbsp;✦&nbsp;Branding&nbsp;✦&nbsp;Motion&nbsp;✦&nbsp;SEO&nbsp;✦&nbsp;Strategy&nbsp;✦&nbsp;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO / MANIFESTO -->
+    <section class="intro">
+      <p class="intro__label reveal-up">(01) — What we do</p>
+      <h2 class="intro__text" data-split>
+        Your website is your hardest-working salesperson. We make it look the part — pairing
+        <em>sharp design</em> with engineering that loads instantly and converts relentlessly.
+      </h2>
+    </section>
+
+    <!-- WORK (horizontal pinned) -->
+    <section class="work" id="work">
+      <div class="work__head">
+        <p class="section-label reveal-up">(02) — Selected work</p>
+        <h2 class="section-title" data-split>Recent<br/><span class="italic">projects.</span></h2>
+      </div>
+
+      <div class="work__track" data-track>
+        <div class="work__inner" data-track-inner>
+
+          <article class="proj" data-tilt>
+            <a href="https://bermaguibudgetstorage.com.au" target="_blank" rel="noopener" class="proj__link">
+              <div class="proj__media" style="--c:#d8ff47;--c2:#1c2b10">
+                <span class="proj__num">01</span>
+                <div class="proj__mock">
+                  <span class="proj__mock-bar"></span>
+                  <strong>Bermagui Budget Storage</strong>
+                  <p>Self-storage · Booking funnel · AI chat</p>
+                </div>
+              </div>
+              <div class="proj__foot">
+                <h3>Bermagui Budget Storage</h3>
+                <span class="proj__tag">Web · Funnel · AI</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="proj" data-tilt>
+            <a href="#contact" class="proj__link">
+              <div class="proj__media" style="--c:#7cc6ff;--c2:#0c1a2b">
+                <span class="proj__num">02</span>
+                <div class="proj__mock">
+                  <span class="proj__mock-bar"></span>
+                  <strong>Coastal Realty Co.</strong>
+                  <p>Property · Listings · CMS</p>
+                </div>
+              </div>
+              <div class="proj__foot">
+                <h3>Coastal Realty Co.</h3>
+                <span class="proj__tag">Brand · Web</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="proj" data-tilt>
+            <a href="#contact" class="proj__link">
+              <div class="proj__media" style="--c:#ff9d7c;--c2:#2b1310">
+                <span class="proj__num">03</span>
+                <div class="proj__mock">
+                  <span class="proj__mock-bar"></span>
+                  <strong>Harvest &amp; Vine</strong>
+                  <p>Hospitality · Bookings · Menu</p>
+                </div>
+              </div>
+              <div class="proj__foot">
+                <h3>Harvest &amp; Vine</h3>
+                <span class="proj__tag">Web · Motion</span>
+              </div>
+            </a>
+          </article>
+
+          <article class="proj" data-tilt>
+            <a href="#contact" class="proj__link">
+              <div class="proj__media" style="--c:#c79dff;--c2:#1a102b">
+                <span class="proj__num">04</span>
+                <div class="proj__mock">
+                  <span class="proj__mock-bar"></span>
+                  <strong>Your brand here</strong>
+                  <p>Let's build the next one</p>
+                </div>
+              </div>
+              <div class="proj__foot">
+                <h3>Your project</h3>
+                <span class="proj__tag">Available now →</span>
+              </div>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stat" data-stat>
+        <span class="stat__num" data-target="100" data-suffix="">0</span>
+        <p>PageSpeed scores we chase on every build</p>
+      </div>
+      <div class="stat" data-stat>
+        <span class="stat__num" data-target="2" data-suffix="×">0</span>
+        <p>Average lift in enquiries after launch</p>
+      </div>
+      <div class="stat" data-stat>
+        <span class="stat__num" data-target="14" data-suffix="d">0</span>
+        <p>Typical turnaround from kickoff to live</p>
+      </div>
+      <div class="stat" data-stat>
+        <span class="stat__num" data-target="100" data-suffix="%">0</span>
+        <p>Hand-built — no bloated templates</p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="services__head">
+        <p class="section-label reveal-up">(03) — Capabilities</p>
+        <h2 class="section-title" data-split>What we<br/><span class="italic">deliver.</span></h2>
+      </div>
+      <ul class="services__list">
+        <li class="service" data-service>
+          <span class="service__idx">01</span>
+          <h3>Website Design &amp; Build</h3>
+          <p>Custom, hand-coded sites engineered for speed and built to convert — not slow drag-and-drop templates.</p>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-service>
+          <span class="service__idx">02</span>
+          <h3>Motion &amp; Interaction</h3>
+          <p>Scroll-driven storytelling, micro-interactions and transitions that make a brand feel alive and premium.</p>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-service>
+          <span class="service__idx">03</span>
+          <h3>Brand &amp; Identity</h3>
+          <p>Logos, type systems and visual languages that hold up everywhere — from a phone screen to a shopfront.</p>
+          <span class="service__arrow">→</span>
+        </li>
+        <li class="service" data-service>
+          <span class="service__idx">04</span>
+          <h3>AI &amp; Automation</h3>
+          <p>Smart chat assistants, booking funnels and integrations that work while you sleep. (Yes — like this studio runs.)</p>
+          <span class="service__arrow">→</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="process__head">
+        <p class="section-label reveal-up">(04) — How it works</p>
+        <h2 class="section-title" data-split>The<br/><span class="italic">process.</span></h2>
+      </div>
+      <div class="process__steps">
+        <div class="step" data-service><span class="step__n">01</span><h3>Discover</h3><p>We learn your business, your customers and what a win actually looks like.</p></div>
+        <div class="step" data-service><span class="step__n">02</span><h3>Design</h3><p>Concepts and prototypes you can click — refined until it feels unmistakably yours.</p></div>
+        <div class="step" data-service><span class="step__n">03</span><h3>Build</h3><p>Clean, fast, hand-written code. Tested across every device before it ships.</p></div>
+        <div class="step" data-service><span class="step__n">04</span><h3>Launch &amp; grow</h3><p>We go live, measure, and keep tuning so the site earns its keep.</p></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <p class="section-label reveal-up">(05) — About</p>
+      <h2 class="about__text" data-split>
+        A small studio with an unfair obsession for detail. We take on a handful of projects at a time so each one gets the craft it deserves — every pixel, every millisecond, every word.
+      </h2>
+      <div class="about__row reveal-up">
+        <span>Based on the South Coast, working worldwide</span>
+        <span>Design · Code · Motion · AI</span>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <p class="contact__label reveal-up">(06) — Let's talk</p>
+      <h2 class="contact__title" data-split>Have a project<br/>in mind?</h2>
+      <a href="mailto:hello@example.com" class="contact__cta" data-magnetic data-strong>
+        <span class="contact__cta-inner">
+          <span>Start a project</span>
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 19L19 5M19 5H9M19 5V15" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        </span>
+      </a>
+      <p class="contact__or reveal-up">or email <a href="mailto:hello@example.com">hello@example.com</a></p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__marquee" aria-hidden="true">
+      <div class="marquee marquee--big" data-marquee>
+        <span>Let's build something&nbsp;—&nbsp;</span>
+        <span>Let's build something&nbsp;—&nbsp;</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2024</span> NOVA Web Studio</span>
+      <div class="footer__social">
+        <a href="#" data-link>Instagram</a>
+        <a href="#" data-link>LinkedIn</a>
+        <a href="mailto:hello@example.com" data-link>Email</a>
+      </div>
+      <span>Made by hand, not by template.</span>
+    </div>
+  </footer>
+
+  <!-- Libraries (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
