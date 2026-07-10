@@ -3,7 +3,6 @@
    ============================================================ */
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const hasFinePointer = matchMedia('(hover:hover) and (pointer:fine)').matches;
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
@@ -52,72 +51,15 @@
     if (reduce) { cancelAnimationFrame(raf); draw(); cancelAnimationFrame(raf); }
   };
 
-  /* ---------- 2. Loader ---------- */
-  const initLoader = () => {
-    const loader = $('.loader');
-    const countEl = $('[data-count]');
-    const bar = $('.loader__bar span');
-    let n = 0;
-    const dur = reduce ? 250 : 1300;
-    const start = performance.now();
-    const tick = (now) => {
-      const p = Math.min((now - start) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      n = Math.round(eased * 100);
-      countEl.textContent = n;
-      bar.style.width = n + '%';
-      if (p < 1) requestAnimationFrame(tick);
-      else finish();
-    };
-    const finish = () => {
-      loader.classList.add('is-done');
-      document.body.style.overflow = '';
-      revealHero();
-      setTimeout(() => loader.remove(), 1100);
-    };
-    document.body.style.overflow = 'hidden';
-    requestAnimationFrame(tick);
-  };
-
-  /* ---------- 3. Hero word reveal ---------- */
+  /* ---------- 2. Hero word reveal ---------- */
   const revealHero = () => {
+    if (reduce || !window.gsap) return;
     const words = $$('.hero__title .word');
-    if (reduce) { words.forEach(w => w.style.transform='none'); return; }
-    if (window.gsap) {
-      gsap.to(words, { y:0, duration:1.1, ease:'expo.out', stagger:.09, delay:.05 });
-      gsap.fromTo('.hero .reveal-up', { y:28, opacity:0 }, { y:0, opacity:1, duration:1, ease:'expo.out', stagger:.12, delay:.4 });
-    } else {
-      words.forEach(w => w.style.transform='none');
-    }
+    gsap.fromTo(words, { y:'110%' }, { y:0, duration:1.1, ease:'expo.out', stagger:.09, delay:.05 });
+    gsap.fromTo('.hero .reveal-up', { y:28, opacity:0 }, { y:0, opacity:1, duration:1, ease:'expo.out', stagger:.12, delay:.4 });
   };
 
-  /* ---------- 4. Custom cursor + magnetic ---------- */
-  const initCursor = () => {
-    if (!hasFinePointer) return;
-    const cursor = $('.cursor');
-    const dot = $('.cursor__dot'), ring = $('.cursor__ring');
-    let mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
-    addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
-    const loop = () => { rx += (mx-rx)*.18; ry += (my-ry)*.18; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); };
-    loop();
-    $$('a, button, [data-magnetic], [data-tilt], .service').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
-    });
-    // magnetic pull
-    $$('[data-magnetic]').forEach(el => {
-      const strength = el.hasAttribute('data-strong') ? .5 : .3;
-      el.addEventListener('mousemove', e => {
-        const r = el.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width/2) * strength;
-        const y = (e.clientY - r.top - r.height/2) * strength;
-        el.style.transform = `translate(${x}px,${y}px)`;
-      });
-      el.addEventListener('mouseleave', () => { el.style.transform=''; });
-    });
-  };
-
-  /* ---------- 5. Lenis smooth scroll ---------- */
+  /* ---------- 3. Lenis smooth scroll ---------- */
   let lenis;
   const initLenis = () => {
     if (reduce || !window.Lenis) return;
@@ -143,17 +85,29 @@
     $$('.reveal-up').forEach(el => {
       if (el.closest('.hero')) return;
       gsap.fromTo(el, { y:28, opacity:0 }, {
-        y:0, opacity:1, duration:1, ease:'expo.out',
+        y:0, opacity:1, duration:1, ease:'expo.out', immediateRender:false,
         scrollTrigger:{ trigger:el, start:'top 88%' }
       });
     });
 
-    // split-text word reveals
+    // split-text word reveals (keeps <br> line breaks and em/italic spans intact)
     $$('[data-split]').forEach(el => {
-      const words = el.textContent.trim().split(/\s+/);
-      el.innerHTML = words.map(w => `<span class="w" style="display:inline-block;overflow:hidden;vertical-align:top"><span style="display:inline-block">${w}</span></span>`).join(' ');
-      gsap.fromTo(el.querySelectorAll('.w > span'), { yPercent:110 }, {
-        yPercent:0, duration:1, ease:'expo.out', stagger:.03,
+      const parts = [];
+      el.childNodes.forEach(node => {
+        if (node.nodeType === 3) {
+          node.textContent.split(/\s+/).filter(Boolean).forEach(w => parts.push({ w }));
+        } else if (node.nodeName === 'BR') {
+          parts.push({ br: true });
+        } else {
+          const tag = node.nodeName.toLowerCase(), cls = node.className || '';
+          node.textContent.split(/\s+/).filter(Boolean).forEach(w => parts.push({ w, tag, cls }));
+        }
+      });
+      el.innerHTML = parts.map(p => p.br ? '<br/>' :
+        `<span class="w" style="display:inline-block;overflow:hidden;vertical-align:top"><${p.tag||'span'} class="${p.cls||''}" style="display:inline-block">${p.w}</${p.tag||'span'}></span>`
+      ).join(' ');
+      gsap.fromTo(el.querySelectorAll('.w > *'), { yPercent:110 }, {
+        yPercent:0, duration:1, ease:'expo.out', stagger:.03, immediateRender:false,
         scrollTrigger:{ trigger:el, start:'top 85%' }
       });
     });
@@ -161,7 +115,7 @@
     // services / steps stagger
     gsap.utils.toArray('[data-service]').forEach(el => {
       gsap.fromTo(el, { y:40, opacity:0 }, {
-        y:0, opacity:1, duration:.9, ease:'power3.out',
+        y:0, opacity:1, duration:.9, ease:'power3.out', immediateRender:false,
         scrollTrigger:{ trigger:el, start:'top 90%' }
       });
     });
@@ -211,22 +165,7 @@
     ScrollTrigger.create({ start:0, end:'max', onUpdate:self => prog.style.transform = `scaleX(${self.progress})` });
   };
 
-  /* ---------- 7. Marquee drift ---------- */
-  const initMarquee = () => {
-    $$('[data-marquee]').forEach(m => {
-      let x = 0, speed = m.classList.contains('marquee--big') ? .4 : .6;
-      const half = m.scrollWidth / 2;
-      const step = () => {
-        x -= speed;
-        if (-x >= half) x = 0;
-        m.style.transform = `translateX(${x}px)`;
-        requestAnimationFrame(step);
-      };
-      if (!reduce) step();
-    });
-  };
-
-  /* ---------- 8. Mobile menu ---------- */
+  /* ---------- 4. Mobile menu ---------- */
   const initMenu = () => {
     const burger = $('[data-burger]');
     burger?.addEventListener('click', () => document.body.classList.toggle('menu-open'));
@@ -235,11 +174,9 @@
   /* ---------- boot ---------- */
   const boot = () => {
     initGradient();
-    initLoader();
-    initCursor();
+    revealHero();
     initLenis();
     initScroll();
-    initMarquee();
     initMenu();
     if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 600);
   };

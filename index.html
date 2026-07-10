@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOVA — Web Studio · Sites that win clients</title>
+  <title>NOVA Web Studio · Sites that win clients</title>
   <meta name="description" content="A boutique web studio crafting fast, modern, conversion-focused websites. Selected work, services, and a process built to make brands unforgettable." />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="NOVA — Web Studio" />
+  <meta property="og:title" content="NOVA Web Studio" />
   <meta property="og:description" content="Modern, high-performance websites that turn visitors into customers." />
   <meta property="og:type" content="website" />
 
@@ -19,23 +19,16 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Grain + cursor overlays -->
+  <!-- Grain overlay -->
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
-
-  <!-- Page loader -->
-  <div class="loader" aria-hidden="true">
-    <div class="loader__count"><span data-count>0</span></div>
-    <div class="loader__bar"><span></span></div>
-  </div>
 
   <!-- Progress scroll bar -->
   <div class="scrollbar" aria-hidden="true"><span></span></div>
 
   <!-- Nav -->
   <header class="nav" data-nav>
-    <a href="#top" class="nav__logo" data-magnetic>
-      <span class="nav__mark">◆</span> NOVA<span class="nav__dot">.</span>
+    <a href="#top" class="nav__logo">
+      NOVA<span class="nav__dot">.</span>
     </a>
     <nav class="nav__links">
       <a href="#work" data-link>Work</a>
@@ -43,7 +36,7 @@
       <a href="#process" data-link>Process</a>
       <a href="#about" data-link>About</a>
     </nav>
-    <a href="#contact" class="nav__cta" data-magnetic>
+    <a href="#contact" class="nav__cta">
       <span>Start a project</span>
       <svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 13L13 3M13 3H5M13 3V11" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
     </a>
@@ -65,7 +58,7 @@
     <section class="hero">
       <canvas class="hero__canvas" data-gradient aria-hidden="true"></canvas>
       <div class="hero__inner">
-        <p class="hero__eyebrow reveal-up"><span>◆</span> Web studio · Est. 2024 · Available for work</p>
+        <p class="hero__eyebrow reveal-up">Web studio · South Coast NSW · Taking new projects</p>
         <h1 class="hero__title">
           <span class="line"><span class="word">We build</span></span>
           <span class="line"><span class="word">websites that</span></span>
@@ -73,7 +66,7 @@
         </h1>
         <div class="hero__meta">
           <p class="reveal-up">Design, motion &amp; engineering for ambitious brands. Fast, modern, and impossible to ignore.</p>
-          <a href="#work" class="hero__scroll" data-magnetic>
+          <a href="#work" class="hero__scroll">
             <span class="hero__scroll-circle">
               <svg viewBox="0 0 12 12" width="12"><path d="M6 1v10M6 11L2 7M6 11l4-4" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>
             </span>
@@ -81,17 +74,11 @@
           </a>
         </div>
       </div>
-      <div class="hero__marquee" aria-hidden="true">
-        <div class="marquee" data-marquee>
-          <span>Design&nbsp;✦&nbsp;Development&nbsp;✦&nbsp;Branding&nbsp;✦&nbsp;Motion&nbsp;✦&nbsp;SEO&nbsp;✦&nbsp;Strategy&nbsp;✦&nbsp;</span>
-          <span>Design&nbsp;✦&nbsp;Development&nbsp;✦&nbsp;Branding&nbsp;✦&nbsp;Motion&nbsp;✦&nbsp;SEO&nbsp;✦&nbsp;Strategy&nbsp;✦&nbsp;</span>
-        </div>
-      </div>
     </section>
 
     <!-- INTRO / MANIFESTO -->
     <section class="intro">
-      <p class="intro__label reveal-up">(01) — What we do</p>
+      <p class="intro__label reveal-up">What we do</p>
       <h2 class="intro__text" data-split>
         Your website is your hardest-working salesperson. We make it look the part, pairing
         <em>sharp design</em> with engineering that loads instantly and converts relentlessly.
@@ -101,18 +88,18 @@
     <!-- WORK (horizontal pinned) -->
     <section class="work" id="work">
       <div class="work__head">
-        <p class="section-label reveal-up">(02) — Selected work</p>
+        <p class="section-label reveal-up">Selected work</p>
         <h2 class="section-title" data-split>Recent<br/><span class="italic">projects.</span></h2>
       </div>
 
       <div class="work__track" data-track>
         <div class="work__inner" data-track-inner>
 
-          <article class="proj" data-tilt>
+          <article class="proj">
             <a href="https://bermaguibudgetstorage.com.au" target="_blank" rel="noopener" class="proj__link">
               <div class="proj__media" style="--c:#d8ff47;--c2:#1c2b10">
                 <img class="proj__shot" src="assets/work-bermagui.jpg" alt="Bermagui Budget Storage website with interactive 3D storage container hero" loading="lazy" />
-                <span class="proj__num">01</span>
+                
               </div>
               <div class="proj__foot">
                 <h3>Bermagui Budget Storage</h3>
@@ -121,11 +108,11 @@
             </a>
           </article>
 
-          <article class="proj" data-tilt>
+          <article class="proj">
             <a href="https://snaprescue.app" target="_blank" rel="noopener" class="proj__link">
               <div class="proj__media" style="--c:#7cc6ff;--c2:#0c1a2b">
                 <img class="proj__shot" src="assets/work-snaprescue.jpg" alt="SnapRescue product site with live deadline countdown and before/after photo cards" loading="lazy" />
-                <span class="proj__num">02</span>
+                
               </div>
               <div class="proj__foot">
                 <h3>SnapRescue</h3>
@@ -134,11 +121,11 @@
             </a>
           </article>
 
-          <article class="proj" data-tilt>
+          <article class="proj">
             <a href="https://pseudo-boots-90990609.figma.site" target="_blank" rel="noopener" class="proj__link">
               <div class="proj__media" style="--c:#3ee6a8;--c2:#0b1f1a">
                 <img class="proj__shot" src="assets/work-certacito.jpg" alt="Certacito AI governance platform with live policy decision dashboard" loading="lazy" />
-                <span class="proj__num">03</span>
+                
               </div>
               <div class="proj__foot">
                 <h3>Certacito.ai</h3>
@@ -147,10 +134,10 @@
             </a>
           </article>
 
-          <article class="proj" data-tilt>
+          <article class="proj">
             <a href="#contact" class="proj__link">
               <div class="proj__media" style="--c:#c79dff;--c2:#1a102b">
-                <span class="proj__num">04</span>
+                
                 <div class="proj__mock">
                   <span class="proj__mock-bar"></span>
                   <strong>Your brand here</strong>
@@ -171,51 +158,47 @@
     <!-- STATS -->
     <section class="stats">
       <div class="stat" data-stat>
-        <span class="stat__num" data-target="100" data-suffix="">0</span>
+        <span class="stat__num" data-target="100" data-suffix="">100</span>
         <p>PageSpeed scores we chase on every build</p>
       </div>
       <div class="stat" data-stat>
-        <span class="stat__num" data-target="30" data-suffix="+">0</span>
+        <span class="stat__num" data-target="30" data-suffix="+">30+</span>
         <p>Tenants managed daily on our storage platform</p>
       </div>
       <div class="stat" data-stat>
-        <span class="stat__num" data-target="5" data-suffix="">0</span>
+        <span class="stat__num" data-target="5" data-suffix="">5</span>
         <p>Languages our latest product ships in</p>
       </div>
       <div class="stat" data-stat>
-        <span class="stat__num" data-target="100" data-suffix="%">0</span>
-        <p>Hand-built — no bloated templates</p>
+        <span class="stat__num" data-target="100" data-suffix="%">100%</span>
+        <p>Hand-coded, with no bloated templates</p>
       </div>
     </section>
 
     <!-- SERVICES -->
     <section class="services" id="services">
       <div class="services__head">
-        <p class="section-label reveal-up">(03) — Capabilities</p>
+        <p class="section-label reveal-up">Capabilities</p>
         <h2 class="section-title" data-split>What we<br/><span class="italic">deliver.</span></h2>
       </div>
       <ul class="services__list">
         <li class="service" data-service>
-          <span class="service__idx">01</span>
-          <h3>Website Design &amp; Build</h3>
+                    <h3>Website Design &amp; Build</h3>
           <p>Custom, hand-coded sites engineered for speed and built to convert. No slow drag-and-drop templates.</p>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-service>
-          <span class="service__idx">02</span>
-          <h3>Motion &amp; Interaction</h3>
+                    <h3>Motion &amp; Interaction</h3>
           <p>Scroll-driven storytelling, micro-interactions and transitions that make a brand feel alive and premium.</p>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-service>
-          <span class="service__idx">03</span>
-          <h3>Brand &amp; Identity</h3>
+                    <h3>Brand &amp; Identity</h3>
           <p>Logos, type systems and visual languages that hold up everywhere, from a phone screen to a shopfront.</p>
           <span class="service__arrow">→</span>
         </li>
         <li class="service" data-service>
-          <span class="service__idx">04</span>
-          <h3>AI &amp; Automation</h3>
+                    <h3>AI &amp; Automation</h3>
           <p>Smart chat assistants, booking funnels and integrations that work while you sleep. (Yes, like this studio runs.)</p>
           <span class="service__arrow">→</span>
         </li>
@@ -225,12 +208,12 @@
     <!-- PROCESS -->
     <section class="process" id="process">
       <div class="process__head">
-        <p class="section-label reveal-up">(04) — How it works</p>
+        <p class="section-label reveal-up">How it works</p>
         <h2 class="section-title" data-split>The<br/><span class="italic">process.</span></h2>
       </div>
       <div class="process__steps">
         <div class="step" data-service><span class="step__n">01</span><h3>Discover</h3><p>We learn your business, your customers and what a win actually looks like.</p></div>
-        <div class="step" data-service><span class="step__n">02</span><h3>Design</h3><p>Concepts and prototypes you can click — refined until it feels unmistakably yours.</p></div>
+        <div class="step" data-service><span class="step__n">02</span><h3>Design</h3><p>Concepts and prototypes you can click, refined until it feels unmistakably yours.</p></div>
         <div class="step" data-service><span class="step__n">03</span><h3>Build</h3><p>Clean, fast, hand-written code. Tested across every device before it ships.</p></div>
         <div class="step" data-service><span class="step__n">04</span><h3>Launch &amp; grow</h3><p>We go live, measure, and keep tuning so the site earns its keep.</p></div>
       </div>
@@ -238,7 +221,7 @@
 
     <!-- ABOUT -->
     <section class="about" id="about">
-      <p class="section-label reveal-up">(05) — About</p>
+      <p class="section-label reveal-up">About</p>
       <h2 class="about__text" data-split>
         A small studio with an unfair obsession for detail. We ship our own products too, so we build every client site like we own it: every pixel, every millisecond, every word.
       </h2>
@@ -250,7 +233,7 @@
 
     <!-- CONTACT -->
     <section class="contact" id="contact">
-      <p class="contact__label reveal-up">(06) — Let's talk</p>
+      <p class="contact__label reveal-up">Let's talk</p>
       <h2 class="contact__title" data-split>Have a project<br/>in mind?</h2>
       <a href="mailto:nicovdt12@gmail.com" class="contact__cta" data-magnetic data-strong>
         <span class="contact__cta-inner">
@@ -264,19 +247,13 @@
   </main>
 
   <footer class="footer">
-    <div class="footer__marquee" aria-hidden="true">
-      <div class="marquee marquee--big" data-marquee>
-        <span>Let's build something&nbsp;✦&nbsp;</span>
-        <span>Let's build something&nbsp;✦&nbsp;</span>
-      </div>
-    </div>
     <div class="footer__bottom">
       <span>© <span data-year>2024</span> NOVA Web Studio</span>
       <div class="footer__social">
         <a href="https://github.com/NicoVDT" target="_blank" rel="noopener" data-link>GitHub</a>
         <a href="mailto:nicovdt12@gmail.com" data-link>Email</a>
       </div>
-      <span>Made by hand, not by template.</span>
+      <span>Designed and built on the NSW South Coast.</span>
     </div>
   </footer>
 
