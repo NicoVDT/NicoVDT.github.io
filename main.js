@@ -13,42 +13,60 @@
     const canvas = $('[data-gradient]');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let w, h, t = 0, raf;
+    let w, h, t = 0;
+    // same blob positions, different palette per theme
+    const palettes = {
+      light: { fill:'#faf8f2', comp:'multiply', edge:'rgba(255,255,255,0)',
+               cols:[[216,255,71],[190,214,120],[228,238,190],[170,200,90]] },
+      dark:  { fill:'#0a0b0a', comp:'lighter',  edge:'rgba(10,11,10,0)',
+               cols:[[216,255,71],[60,80,40],[30,40,25],[120,150,60]] },
+    };
     const blobs = [
-      { x:.25, y:.35, r:.55, col:[216,255,71]  },  // lime wash
-      { x:.75, y:.55, r:.6,  col:[190,214,120] },  // soft olive
-      { x:.55, y:.2,  r:.45, col:[228,238,190] },
-      { x:.85, y:.85, r:.5,  col:[170,200,90]  },
+      { x:.25, y:.35, r:.55 },
+      { x:.75, y:.55, r:.6  },
+      { x:.55, y:.2,  r:.45 },
+      { x:.85, y:.85, r:.5  },
     ];
     const resize = () => {
       const dpr = Math.min(devicePixelRatio || 1, 2);
       w = canvas.width = innerWidth * dpr;
       h = canvas.height = canvas.offsetHeight * dpr;
     };
-    const draw = () => {
+    const render = () => {
+      const p = palettes[document.documentElement.dataset.theme] || palettes.light;
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = '#faf8f2';
+      ctx.fillStyle = p.fill;
       ctx.fillRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'multiply';
+      ctx.globalCompositeOperation = p.comp;
       blobs.forEach((b, i) => {
         const ox = Math.sin(t * .0006 + i * 1.7) * .12;
         const oy = Math.cos(t * .0005 + i * 2.3) * .12;
         const cx = (b.x + ox) * w, cy = (b.y + oy) * h;
         const rad = b.r * Math.max(w, h) * (.8 + Math.sin(t*.001+i)*.08);
         const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-        const [r,gr,bl] = b.col;
+        const [r,gr,bl] = p.cols[i];
         g.addColorStop(0, `rgba(${r},${gr},${bl},${i===0?.5:.32})`);
-        g.addColorStop(1, 'rgba(255,255,255,0)');
+        g.addColorStop(1, p.edge);
         ctx.fillStyle = g;
         ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI*2); ctx.fill();
       });
       ctx.globalCompositeOperation = 'source-over';
-      t += 16;
-      raf = requestAnimationFrame(draw);
     };
-    resize(); draw();
+    const loop = () => { render(); t += 16; requestAnimationFrame(loop); };
+    resize();
     addEventListener('resize', resize);
-    if (reduce) { cancelAnimationFrame(raf); draw(); cancelAnimationFrame(raf); }
+    if (reduce) { render(); addEventListener('themechange', render); }
+    else loop();
+  };
+
+  /* ---------- 1b. Light/dark toggle ---------- */
+  const initTheme = () => {
+    $('[data-theme-toggle]')?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('nova-theme', next); } catch (e) {}
+      dispatchEvent(new Event('themechange'));
+    });
   };
 
   /* ---------- 2. Hero word reveal ---------- */
@@ -158,6 +176,7 @@
   /* ---------- boot ---------- */
   const boot = () => {
     initGradient();
+    initTheme();
     revealHero();
     initLenis();
     initScroll();
