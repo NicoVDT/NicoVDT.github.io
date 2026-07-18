@@ -120,22 +120,6 @@
       });
     });
 
-    // horizontal pinned work track
-    const track = $('[data-track]'), inner = $('[data-track-inner]');
-    if (track && inner && innerWidth > 760) {
-      const getScroll = () => inner.scrollWidth - innerWidth + 80;
-      gsap.to(inner, {
-        x: () => -getScroll(),
-        ease:'none',
-        scrollTrigger:{
-          trigger:track,
-          start:'top top',
-          end:() => '+=' + getScroll(),
-          pin:true, scrub:1, invalidateOnRefresh:true
-        }
-      });
-    }
-
     // counters
     $$('[data-target]').forEach(el => {
       const target = +el.dataset.target, suffix = el.dataset.suffix || '';
