@@ -15,10 +15,10 @@
     const ctx = canvas.getContext('2d');
     let w, h, t = 0, raf;
     const blobs = [
-      { x:.25, y:.35, r:.55, col:[216,255,71] },   // lime
-      { x:.75, y:.55, r:.6,  col:[60,80,40]   },   // deep olive
-      { x:.55, y:.2,  r:.45, col:[30,40,25]   },
-      { x:.85, y:.85, r:.5,  col:[120,150,60] },
+      { x:.25, y:.35, r:.55, col:[216,255,71]  },  // lime wash
+      { x:.75, y:.55, r:.6,  col:[190,214,120] },  // soft olive
+      { x:.55, y:.2,  r:.45, col:[228,238,190] },
+      { x:.85, y:.85, r:.5,  col:[170,200,90]  },
     ];
     const resize = () => {
       const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -27,9 +27,9 @@
     };
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = '#0a0b0a';
+      ctx.fillStyle = '#faf8f2';
       ctx.fillRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalCompositeOperation = 'multiply';
       blobs.forEach((b, i) => {
         const ox = Math.sin(t * .0006 + i * 1.7) * .12;
         const oy = Math.cos(t * .0005 + i * 2.3) * .12;
@@ -38,7 +38,7 @@
         const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
         const [r,gr,bl] = b.col;
         g.addColorStop(0, `rgba(${r},${gr},${bl},${i===0?.5:.32})`);
-        g.addColorStop(1, 'rgba(10,11,10,0)');
+        g.addColorStop(1, 'rgba(255,255,255,0)');
         ctx.fillStyle = g;
         ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI*2); ctx.fill();
       });
