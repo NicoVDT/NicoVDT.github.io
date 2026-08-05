@@ -23,9 +23,17 @@ Presentation Structure.
 
 **Demo last is a strong finish, but it removes your safety net.** If the system
 misbehaves at 4m00 you are debugging with the clock running and no slides left to
-retreat into. Have the recording open in a second tab before you start, and switch
-to it without apologising the moment something looks wrong. A smooth recording
-beats a panicked debug every time.
+retreat into.
+
+**There is a backup slide for exactly this.** It is the last page of the deck, after
+the close, labelled BACKUP in red. Press **End** to jump to it. It carries the same
+four decisions as a table plus a screenshot of the live activity feed showing them
+land, so you can talk through the identical story with nothing running. Then navigate
+back one slide for the close.
+
+Order of preference when the demo dies: recording in a second tab, then the backup
+slide, then talking over a frozen screen. Switch without apologising and without
+narrating the fault. A smooth recording beats a panicked debug every time.
 
 ## What got cut and why
 
