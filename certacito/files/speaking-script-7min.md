@@ -53,7 +53,11 @@ sheet, so an Azure slide earns nothing and costs 90 seconds.
 
 ## Slide 1 - Title + the problem (40 sec)
 
-Group 28, Certacito.ai. One sentence on what it is, then straight into why.
+Group 28, Certacito.ai. **Six of us built it; you are presenting on the group's
+behalf.** Say that in one line and move on. Do not read the six names out, they are
+on the slide.
+
+One sentence on what it is, then straight into why.
 
 AI agents increasingly take actions on their own: reading records, sending mail,
 calling APIs. Our controls were built for humans clicking buttons.
@@ -164,7 +168,12 @@ FR-11, the FR-02 condition parser, the FR-05 background SLA worker, custom domai
 and TLS.
 
 **"How much of this did each of you do?"**
-Contribution table in the appendix.
+Six-person group, split by accountability area: backend logic, frontend, integration
+and testing, documentation and architecture, interface refinement, and coordination
+plus infrastructure. The written breakdown is submitted with the code.
+
+*(Kept as a Q&A answer only. The contribution table is a required submission
+attachment, not slide content, so it is no longer referenced in the deck.)*
 
 Full detail for anything else: `docs/live-demo-cheatsheet.md`, ctrl-F it.
 
