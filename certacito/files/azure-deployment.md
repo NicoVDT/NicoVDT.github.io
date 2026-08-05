@@ -1,0 +1,160 @@
+# Azure Deployment Runbook (FR-07)
+
+How the system is deployed to Azure. This describes the running production
+deployment, not a plan.
+
+## What it actually runs on
+
+A single Azure VM, `certacito-vm`, Standard_B2ls_v2 (2 vCPU / 4 GiB), Ubuntu 24.04
+LTS, in `australiaeast`. Public IP **20.92.93.30**, admin user `azureuser`, SSH by
+key only. NSG allows 22, 80 and 443.
+
+The whole stack is Docker Compose on that one box. There is no App Service, no
+managed database and no Key Vault. That was the original plan and it was dropped:
+a VM was cheaper against student credit, and it let us host the governed agent
+alongside the platform, which the demo needs.
+
+### Services
+
+`docker-compose.azure.yml`, three containers:
+
+| Service | Image | Notes |
+|---|---|---|
+| `postgres` | postgres:16-alpine | named volume `pgdata`, healthcheck gates the app |
+| `redis` | redis:7-alpine | rate limiting, transient state |
+| `app` | built from `infra/docker/Dockerfile.azure` | published `80:8000` |
+
+`app` is a two-stage image. Stage one runs `npm ci` then `vite build`; stage two
+installs the Python dependencies and copies the built frontend in as
+`frontend_dist/`, which FastAPI serves at `/`. One container serves both the API
+and the SPA, so there is no nginx and no second app.
+
+### Configuration
+
+`~/certacito/.env` on the VM, chmod 600, not in the repository. It holds
+`SECRET_KEY`, `AGENT_API_KEY` and `POSTGRES_PASSWORD`; `DATABASE_URL` and
+`REDIS_URL` are composed in the compose file. These are freshly generated values,
+deliberately not the ones used on the staging container.
+
+Because every secret is already an environment variable, moving to a secret
+manager later is a config change rather than a code change.
+
+## Deploying
+
+`infra/scripts/deploy-vm.sh` on the VM does the whole thing:
+
+```bash
+git fetch --quiet origin main
+git reset --quiet --hard origin/main
+[ -f .env ] || { echo "no .env on this box, refusing to deploy"; exit 1; }
+docker compose -f docker-compose.azure.yml up -d --build
+# then polls /health for up to 60s before reporting success
+```
+
+The `.env` guard matters: `git reset --hard` would otherwise be one typo away from
+deploying a box with no secrets.
+
+### From CI
+
+`.github/workflows/deploy.yml` SSHes in and runs it. Two keys are involved, in
+opposite directions, which is the easy thing to get confused:
+
+| Key | Private half lives | Direction |
+|---|---|---|
+| `~/.ssh/gh_projcert` | on the VM | VM pulls from GitHub (repo deploy key, read-only) |
+| `DEPLOY_KEY` secret | in GitHub Actions | GitHub SSHes into the VM |
+
+The CI key is pinned to a forced command in the VM's `authorized_keys`:
+
+```
+command="/home/azureuser/certacito/infra/scripts/deploy-vm.sh",no-agent-forwarding,no-port-forwarding,no-pty
+```
+
+Whatever the runner sends is ignored; the VM forces the deploy script. If that
+secret leaked, the worst it can do is redeploy main.
+
+Repo settings needed: secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_KEY`, and
+variable `AZURE_DEPLOY_ENABLED=true`. Flipping the variable to `false` stops
+deploys without touching the workflow.
+
+**Note:** GitHub scopes deploy keys globally, so the same public key cannot be
+registered on two repositories. Moving the repo means minting a new pair on the VM.
+
+## The governed agent
+
+The OpenClaw gateway runs on the VM as a host process on port 18789, alongside the
+containers. It is reached through Caddy on 443 rather than directly, because the
+control UI refuses to run outside a secure context, so plain `http://<ip>:18789`
+will never connect in a browser.
+
+`/etc/caddy/Caddyfile`:
+
+```
+{
+	http_port 8080          # port 80 belongs to the app; ACME uses tls-alpn on 443
+}
+
+https://20-92-93-30.nip.io {
+	basic_auth { ... }
+	reverse_proxy localhost:18789
+}
+```
+
+`nip.io` is wildcard DNS that resolves the hostname straight back to the IP, which
+gets a real Let's Encrypt certificate without owning a domain. **Basic auth sits in
+front of it**, added because the site is reachable from the open internet and the
+gateway's own token travels in a URL query string.
+
+### Interception on the agent side
+
+The agent is agy (Antigravity CLI) driven by OpenClaw, so OpenClaw's own
+`shellCommandPrefix` is no use here: agy owns the tool loop and runs commands
+itself. What works is agy's permission layer, which auto-denies any command
+without a matching allow-rule. Allowing exactly one binary leaves the gate as the
+only route to a shell.
+
+`~/.agy-home/.gemini/antigravity-cli/settings.json`:
+
+```json
+{
+  "permissions": { "allow": ["command(certacito-exec-gate)"] }
+}
+```
+
+Checked both directions:
+
+```
+certacito-exec-gate echo hello-governed   -> PERMIT, ran, audit RULE-005
+certacito-exec-gate curl .../patient/...  -> DENY,  blocked, audit RULE-001
+cat /etc/passwd (raw, no gate)            -> auto-denied by agy, never ran
+```
+
+The last line is the one that matters. The agent cannot route around the gate; it
+just loses the ability to run anything at all.
+
+`CERTACITO_API_KEY` has to be in the agent's env (`/etc/certacito-agent.env`),
+otherwise the hook fails closed and denies everything, which looks like a policy
+bug but isn't.
+
+## Post-deploy checklist
+
+- `http://20.92.93.30/health` returns `{"status":"ok"}`
+- log in, confirm the dashboard populates and the LIVE badge is green
+- run the four demo prompts, confirm PERMIT / DENY / DENY / ESCALATE
+- open the audit log and run **Verify chain**
+- confirm the agent console prompts for basic auth
+
+## Known gaps and gotchas
+
+- **No TLS on the platform itself.** Port 80 is plain HTTP; only the agent console
+  is behind Caddy on 443. A custom domain plus a certificate is outstanding.
+- **The VM has a daily auto-shutdown** to protect student credit. If the site is
+  unreachable, check the VM is started before debugging anything else.
+- Migrations: the app runs `init_db()` on startup; use Alembic against the VM's
+  Postgres for schema changes after that.
+- The rate limiter is in-memory per instance. Fine on one box, revisit before
+  scaling out.
+- `bcrypt` is pinned to 4.0.1. Unpinning it breaks every login on a clean install,
+  because passlib probes the backend with an over-length string that 4.1+ raises on.
+- The admin bootstrap only applies to the first registered account. Register is
+  admin-only once any user exists.
